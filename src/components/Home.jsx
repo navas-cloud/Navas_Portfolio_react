@@ -39,8 +39,6 @@ function Home() {
             0 0 12px rgba(1, 3, 12, 0.4);
         }
 
-
-
         .hero-tagline {
           font-size: 1.5rem;
           color: #d46161;
@@ -102,7 +100,7 @@ function Home() {
           View Projects
         </a>
         <a
-          href="MohammedNavas_A_Resume.pdf"
+          href="resume/MohammedNavas_A_Resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-outline-info btn-hover px-4"

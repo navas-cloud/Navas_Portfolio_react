@@ -1,48 +1,46 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+
 
 function Navbar() {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      open &&
+      menuRef.current &&
+      !menuRef.current.contains(event.target)
+    ) {
+      setOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [open]);
+
+  const menuRef = useRef(null);
+
   return (
     <>
-      {/* Inline styles */}
       <style>{`
         .dark-navbar {
-			background: linear-gradient(
-				180deg,
-				#0b0b0d,
-				#0f0f12
-			);
-			box-shadow: 0 6px 25px rgba(0, 0, 0, 0.8);
-			backdrop-filter: blur(8px);
-			height: 70px;
-			border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-			margin-bottom: 5 !important;
-  		padding-bottom: 0 !important;
-		}
+          background: linear-gradient(180deg, #0b0b0d, #0f0f12);
+          box-shadow: 0 6px 25px rgba(0, 0, 0, 0.8);
+          backdrop-filter: blur(8px);
+          height: 70px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
         .brand-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            background: linear-gradient(
-            90deg,
-            #7f7cff,
-            #00ffe7
-            );
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 8px rgba(0, 255, 231, 0.35);
-        }
-
-        .brand-name span {
-            font-weight: 400;
-            opacity: 0.85;
-        }
-
-        .navbar-brand {
-          color: #ffffff !important;
-          font-size: 1.2rem;
+          font-size: 1.25rem;
+          font-weight: 700;
           letter-spacing: 1px;
+          background: linear-gradient(90deg, #7f7cff, #00ffe7);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
 
         .nav-center {
@@ -63,11 +61,9 @@ function Navbar() {
           transition: all 0.35s ease;
         }
 
-        .nav-item-link:hover {
+        .nav-item-link:hover,
+        .nav-item-link.active {
           color: #ffffff;
-          text-shadow:
-            0 0 6px rgba(127, 124, 255, 0.6),
-            0 0 12px rgba(0, 255, 231, 0.35);
         }
 
         .nav-item-link::after {
@@ -77,14 +73,8 @@ function Navbar() {
           bottom: -6px;
           width: 0%;
           height: 2px;
-          background: linear-gradient(
-            90deg,
-            #7f7cff,
-            #00ffe7,
-            #6affb7
-          );
+          background: linear-gradient(90deg, #7f7cff, #00ffe7, #6affb7);
           transition: width 0.35s ease;
-          border-radius: 2px;
         }
 
         .nav-item-link:hover::after,
@@ -92,74 +82,111 @@ function Navbar() {
           width: 100%;
         }
 
-        .nav-item-link.active {
-          color: #ffffff;
-        }
-
         .resume-btn {
           padding: 8px 18px;
           border-radius: 25px;
           font-size: 0.85rem;
-          letter-spacing: 0.6px;
-          color: #ffffff;
-          background: linear-gradient(
-            135deg,
-            #7f7cff,
-            #00ffe7
-          );
+          color: #fff;
+          background: linear-gradient(135deg, #7f7cff, #00ffe7);
           text-decoration: none;
-          transition: all 0.35s ease;
           box-shadow: 0 0 12px rgba(0, 255, 231, 0.4);
         }
+          
+        .mobile-resume {
+          display: none;
+        }
 
-        .resume-btn:hover {
-          transform: translateY(-2px);
-          box-shadow:
-            0 0 16px rgba(127, 124, 255, 0.6),
-            0 0 24px rgba(0, 255, 231, 0.5);
-          color: #ffffff;
+        /* Hamburger */
+        .hamburger {
+          display: none;
+          background: none;
+          border: none;
+          font-size: 1.8rem;
+          color: #fff;
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+          .hamburger {
+            display: block;
+          }
+          
+          .mobile-resume {
+            display: inline-block
+          }
+
+          .nav-center {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            transform: none;
+            flex-direction: column;
+            background: #0f0f12;
+            padding: 1rem 0;
+            display: none;
+          }
+
+          .nav-center.open {
+            display: flex;
+          }
+
+          .nav-item-link {
+            margin: 10px 0;
+            font-size: 1rem;
+          }
+
+          .ms-auto {
+            display: none;
+          }
         }
       `}</style>
 
-      <nav className="navbar navbar-expand-lg fixed-top dark-navbar">
+      <nav className="navbar fixed-top dark-navbar">
         <div className="container-fluid position-relative">
 
-          {/* Left - Brand */}
+          {/* Brand */}
           <NavLink className="navbar-brand brand-name" to="/">
             MohammedNavas A
-        	</NavLink>
+          </NavLink>
 
+          {/* Hamburger */}
+          <button
+            className="hamburger"
+            onClick={() => setOpen(!open)}
+          >
+            ☰
+          </button>
 
-          {/* Center - Nav Links */}
-          <div className="nav-center">
-            <NavLink className="nav-item-link" to="/" end>
-              Home
-            </NavLink>
-            <NavLink className="nav-item-link" to="/about">
-              About
-            </NavLink>
-            <NavLink className="nav-item-link" to="/achievements">
-              Achievements
-            </NavLink>
-            <NavLink className="nav-item-link" to="/projects">
-              Projects
-            </NavLink>
-            <NavLink className="nav-item-link" to="/skills">
-              Skills
-            </NavLink>
-            <NavLink className="nav-item-link" to="/contact">
-              Contact
-            </NavLink>
+          {/* Nav Links */}
+          <div
+            ref={menuRef}
+            className={`nav-center ${open ? "open" : ""}`}
+          >
+            <NavLink className="nav-item-link" to="/" end onClick={() => setOpen(false)}>Home</NavLink>
+            <NavLink className="nav-item-link" to="/about" onClick={() => setOpen(false)}>About</NavLink>
+            <NavLink className="nav-item-link" to="/achievements" onClick={() => setOpen(false)}>Achievements</NavLink>
+            <NavLink className="nav-item-link" to="/projects" onClick={() => setOpen(false)}>Projects</NavLink>
+            <NavLink className="nav-item-link" to="/skills" onClick={() => setOpen(false)}>Skills</NavLink>
+            <NavLink className="nav-item-link" to="/contact" onClick={() => setOpen(false)}>Contact</NavLink>
+
+            {/* Resume inside mobile menu */}
+            <a
+              href="/resume/MohammedNavas_A_Resume.pdf"
+              className="resume-btn mt-2 mobile-resume"
+              download
+            >
+              Resume
+            </a>
+        
           </div>
 
-          {/* Right - Resume Button */}
-          <div className="ms-auto">
+          {/* Desktop resume */}
+          <div className="ms-auto d-none d-md-block">
             <a
-              href="/resume/MohammedNavas_Resume.pdf"
+              href="/resume/MohammedNavas_A_Resume.pdf"
               className="resume-btn"
               download
-              target="_blank"
-              rel="noopener noreferrer"
             >
               Resume
             </a>

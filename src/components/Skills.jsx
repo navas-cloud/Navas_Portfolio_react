@@ -65,8 +65,8 @@ function Skills() {
         <div className="col-12 mt-5">
           <div className="skill-card p-3">
             <h5 style={{ color: '#a8a5f8', marginLeft: '0.7rem' }}>Professional Strengths</h5>
-            <p style={{ marginTop: '0.7rem' }}>
-              Rapid learner of new technologies, adaptable to changing requirements, strong problem-solving ability, proactive and collaborative team player.
+            <p style={{ marginTop: '0.7rem', marginLeft: '0.3rem' }}>
+              Rapid learner of new technologies, adaptable to changing requirements, strong problem-solving ability, proactive and collaborative team player with consistency and focus.
             </p>
           </div>
         </div>

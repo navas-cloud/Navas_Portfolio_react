@@ -251,12 +251,22 @@
   font-size: 2rem;
   width: 60px;
   height: 60px;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   background-color: #1f1f2e;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.skill-icon svg {
+  width: 1.8rem;
+  height: 1.8rem;
+  display: block;
 }
 
 .skill-content h5 {
