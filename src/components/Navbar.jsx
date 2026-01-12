@@ -4,24 +4,21 @@ import React, { useState, useRef, useEffect } from "react";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
-  useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (
-      open &&
-      menuRef.current &&
-      !menuRef.current.contains(event.target)
-    ) {
-      setOpen(false);
-    }
-  };
-
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, [open]);
-
   const menuRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        open &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    };
 
   return (
     <>
@@ -101,8 +98,10 @@ function Navbar() {
           display: none;
           background: none;
           border: none;
-          font-size: 1.8rem;
-          color: #fff;
+          font-size: 2rem;   /* smaller size */
+          color: #ececec;      /* blue color */
+          cursor: pointer;
+          padding: 6px;
         }
 
         /* MOBILE */
@@ -153,9 +152,10 @@ function Navbar() {
           {/* Hamburger */}
           <button
             className="hamburger"
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpen(prev => !prev)}
+            aria-label="Toggle menu"
           >
-            ☰
+            {open ? "✕" : "☰"}
           </button>
 
           {/* Nav Links */}
