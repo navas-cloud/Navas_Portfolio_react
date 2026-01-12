@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import React, { useState, useRef, useEffect } from "react";
 
-
 function Navbar() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
@@ -19,6 +18,12 @@ function Navbar() {
         setOpen(false);
       }
     };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
 
   return (
     <>
